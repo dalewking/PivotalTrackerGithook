@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+token='enter pivotal tracker token'
+project=enter project number
+
+# Build new message in a tempfile
+tempfile=`mktemp pivotal-git-hook`
+
+# Copy the non-comment lines from the previous message
+# This is to support git commit --amend
+grep -v "^#" "$1" >> "$tempfile"
+
+# Get list of open stories from the current iteration
+# and turn them into comments
+curl -s -H "X-TrackerToken: ${token}" -X GET \
+ http://www.pivotaltracker.com/services/v3/projects/${project}/iterations/current \
+ | xsltproc `dirname ${0}`/xsl - >> "$tempfile"
+
+# Copy the comment lines from previous commit message
+grep "^#" "$1" >> "$tempfile"
+
+# Make our temp file the real thing
+mv "$tempfile" "$1"
