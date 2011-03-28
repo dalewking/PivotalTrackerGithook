@@ -4,7 +4,7 @@ token='enter pivotal tracker token'
 project=enter project number
 
 # Build new message in a tempfile
-tempfile=`mktemp pivotal-git-hook`
+tempfile=`mktemp pivotal-git-hook.XXXXXXXXXXXXX`
 
 # Copy the non-comment lines from the previous message
 # This is to support git commit --amend
