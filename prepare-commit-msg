@@ -21,6 +21,6 @@ then
 
   # Copy the comment lines from previous commit message
   grep "^#" "$1" >> "$tempfile"
+  # Make our temp file the real thing
+  mv "$tempfile" "$1"
 fi
-# Make our temp file the real thing
-mv "$tempfile" "$1"
